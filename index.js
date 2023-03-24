@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 8000
 
 app.use("/api/auth",userRoute)
 app.use("/api/quiz",quizRoute)
-app.use("/api/quiz",scoreRoute)
+app.use("/api/score",scoreRoute)
 
 
 
