@@ -13,9 +13,12 @@ const Schema = new mongoose.Schema({
     password:{
         type:String
     },
-    score:{
-        type:Number
-    },
+    score:[
+        {
+            subjectName:String,
+            score:Number
+        }
+    ],
     mySubject:{
         type:String
     },
@@ -27,3 +30,4 @@ const Schema = new mongoose.Schema({
         type:Array
     }
 })
+module.exports= mongoose.model("Member",Schema)
