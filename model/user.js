@@ -19,9 +19,9 @@ const Schema = new mongoose.Schema({
             score:Number
         }
     ],
-    mySubject:{
-        type:String
-    },
+    mySubject:[{
+        type:String,
+    }],
     active:{
         type:Boolean,
         default:false
