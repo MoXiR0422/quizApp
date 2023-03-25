@@ -9,12 +9,12 @@ const Schema = new mongoose.Schema({
         questionText: String, 
         type: String, // type writing or test
         answers: [
-            { text: String , correct: {type:boolean,default:false} },
-            { text: String , correct: {type:boolean,default:false} },
-            { text: String , correct: {type:boolean,default:false} },
-            { text: String , correct: {type:boolean,default:false} }
+            { text: String , correct: {type:Boolean,default:false} },
+            { text: String , correct: {type:Boolean,default:false} },
+            { text: String , correct: {type:Boolean,default:false} },
+            { text: String , correct: {type:Boolean,default:false} }
         ]
     }]
 })
 
-module.exports = mongoose.model("Quiz",Schema)
+module.exports = mongoose.model("Quiz", Schema)
