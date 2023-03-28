@@ -1,9 +1,16 @@
 const route = require("express").Router()
-const Quizs = require("../model/quiz")
 
-route.get("/",async(req,res)=>{
-    const user = await Quizs.find()
-    res.json(user)
-})
+const {
+    addQuiz,
+    getQuiz,
+    deleteQuiz,
+    answerQuiz
+} = require("../controller/quizCtrl")
+
+
+route.post("/addQuiz",addQuiz)
+route.post("/getQuiz",getQuiz)
+route.delete("/deleteQuiz",deleteQuiz)
+route.post("/answerQuiz",answerQuiz)
 
 module.exports = route

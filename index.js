@@ -16,6 +16,7 @@ require('./config/passport')
 require('dotenv').config()
 
 app.use(express.json())
+
 app.use(bodyParser.urlencoded({extended:true}))
 
 app.use(session({
@@ -37,8 +38,7 @@ app.use("/api/quiz",quizRoute)
 app.use("/api/score",scoreRoute)
 
 const PORT = process.env.PORT || 8000
+
 app.listen(PORT,()=>{
     console.log("server is running");
 })
-
-//http://localhost:8000/api/auth/google

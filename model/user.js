@@ -14,15 +14,16 @@ const Schema = new mongoose.Schema({
     password:{
         type:String
     },
+    lastGetQuiz:Array,
     score:[
         {
             subjectName:String,
-            score:Number
+            score:Array
         }
     ],
-    mySubject:{
-        type:String
-    },
+    mySubject:[{
+        type:String,
+    }],
     active:{
         type: Boolean,
         default:false
@@ -30,6 +31,7 @@ const Schema = new mongoose.Schema({
     activeTime:{
         type:Array
     },
+
 
     refreshToken: String,
     uniquinumber: String,
@@ -43,11 +45,18 @@ const Schema = new mongoose.Schema({
 Schema.pre('save', async function(next){
     if(!this.isModified('password')){
         next()
+
+    getQuiz:{
+        SubjectName:String,
+        Quizs:Array,
+        QuizTime:Number
+
     }
 
     const salt = await bcrypt.genSalt(10)
     this.password = await bcrypt.hash(this.password, salt)
 })
+
 
 Schema.methods.isPasswordMatched = async function(enterPass){
     return await bcrypt.compareSync(enterPass, this.password)
@@ -58,3 +67,4 @@ Schema.methods.hashingPassword = async(enterPass) => {
 }
 
 module.exports= mongoose.model("Member",Schema)
+
