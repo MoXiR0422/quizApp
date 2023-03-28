@@ -13,10 +13,11 @@ const Schema = new mongoose.Schema({
     password:{
         type:String
     },
+    lastGetQuiz:Array,
     score:[
         {
             subjectName:String,
-            score:Number
+            score:Array
         }
     ],
     mySubject:[{
@@ -28,6 +29,14 @@ const Schema = new mongoose.Schema({
     },
     activeTime:{
         type:Array
+    },
+    getQuiz:{
+        SubjectName:String,
+        Quizs:Array,
+        QuizTime:Number
     }
 })
+
+
 module.exports= mongoose.model("Member",Schema)
+

@@ -1,18 +1,12 @@
 const mongoose = require("mongoose")
 
 const Schema = new mongoose.Schema({
-    SubjectName : {
-        type:String,
-        required:true
-    },
+    subjectName :String,
     questions:[{
         questionText: String, 
-        type: String, // type writing or test
+        examtype: String, // type writing or test
         answers: [
-            { text: String , correct: {type:boolean,default:false} },
-            { text: String , correct: {type:boolean,default:false} },
-            { text: String , correct: {type:boolean,default:false} },
-            { text: String , correct: {type:boolean,default:false} }
+            { text: String , correct: {type:Boolean,default:false} },
         ]
     }]
 })
