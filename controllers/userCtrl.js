@@ -8,9 +8,9 @@ const crypto = require('crypto')
 function generateNumber(){
     let rand = ''
     for(let i = 0; i < 6; i++){
-        var number = Math.floor((Math.random() * 100000) + i)
+        var number = Math.floor((Math.random() * 6) + i)
+        rand += number
     }
-    rand += number
     return rand
 }
 
@@ -166,6 +166,10 @@ const verifyDelete = asyncHandler(async(req, res) => {
     }
 })
 
+//get user profil
+const userProfil = asyncHandler(async(req, res) => {
+    res.json(req.user)
+})
 
 module.exports = { 
     regis, 
@@ -176,5 +180,6 @@ module.exports = {
     forgotPassword, 
     updatePassword, 
     deleteAccount,
-    verifyDelete
+    verifyDelete,
+    userProfil
 }

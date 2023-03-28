@@ -10,6 +10,7 @@ const Schema = new mongoose.Schema({
     email:{
         type:String
     },
+    googleId: String,
     password:{
         type:String
     },
@@ -35,7 +36,8 @@ const Schema = new mongoose.Schema({
     isValid: {
         type: Boolean,
         default: false
-    }
+    },
+    
 })
 
 Schema.pre('save', async function(next){
