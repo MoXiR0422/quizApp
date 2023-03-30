@@ -3,7 +3,7 @@ const Auth = require('../model/user')
 const asyncHandler = require('express-async-handler')
 
 //forgot password and delete account
-const serviceEmail = asyncHandler(async(data, req, res) => {
+const serviceEmail = asyncHandler(async(email, pass) => {
     const transport = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -13,10 +13,10 @@ const serviceEmail = asyncHandler(async(data, req, res) => {
     })
 
     let options = {
-        from: data.from,
-        to: data.to,
-        subject: data.subject,
-        text: data.text
+        from: "kutubxona655@gmail.com",
+        to: `${email}`,
+        subject: 'Forgot password',
+        text: `${pass}`
     }
 
     transport.sendMail(options, (err, info) => {

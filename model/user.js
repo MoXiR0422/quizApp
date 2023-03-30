@@ -45,13 +45,8 @@ const Schema = new mongoose.Schema({
 
 Schema.pre('save', async function(next){
     if(!this.isModified('password')){
-    
-        next()
-    
-
-    
+        next()    
     }
-
     const salt = await bcrypt.genSalt(10)
     this.password = await bcrypt.hash(this.password, salt)
 })
@@ -65,4 +60,4 @@ Schema.methods.hashingPassword = async(enterPass) => {
     return bcrypt.hashSync(enterPass, 10)
 }
 
-module.exports= mongoose.model("Member",Schema)
+module.exports= mongoose.model("Member", Schema)

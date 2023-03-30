@@ -4,14 +4,14 @@ const { generateToken } = require('../config/generateToken')
 const { generateRefreshToken } = require('../config/refreshToken')
 const { serviceEmail } = require('../utils/nodemailer')
 const crypto = require('crypto')
-
+let pass;
+let randomize = ''
 function generateNumber(){
-    let rand = ''
     for(let i = 0; i < 6; i++){
-        var number = Math.floor((Math.random() * 6) + i)
-        rand += number
+        var number = Math.floor((Math.random() * 6))
+        randomize += number
     }
-    return rand
+    return randomize
 }
 
 //registration
@@ -88,13 +88,15 @@ const logOut = asyncHandler(async(req, res) => {
 //edit
 const editUser = asyncHandler(async(req, res) => {
     const { username, lastName, password } = req.body
-    const find = await Auth.findOne({
+    const { id } = req.user
+    console.log(id)
+    const find = await Auth.findOne({ _id: id })
+    if(find){
+       const update = await Auth.findByIdAndUpdate(find.id, {
         username: username,
         lastName: lastName,
         password: password
-    })
-    if(!find){
-       const update = await Auth.updateOne(req.body) 
+       }) 
        res.json(update)
     }else{
         throw new Error('not update')
@@ -106,16 +108,27 @@ const forgotPassword = asyncHandler(async(req, res) => {
     const { email } = req.body
     const find = await Auth.findOne({email})
     if(find){
-        const url = `Пожалуйста подтвердите email нажмите на ссылку <a href="http://localhost:8000/api/auth/updatePass/${find._id}">Нажмите сюда</a>`  
-        const data = {
-            from: "kutubxona655@gmail.com",
-            to: find.email,
-            subject: `Привет ${find.email}`,
-            text: url
-        }
+        generateNumber()
+        serviceEmail(email, randomize)
+        pass = randomize
+        res.json(find.id)
+    }else{
+        throw new Error('not sended')
+    }
+})
 
-        serviceEmail(data)
-        res.json('send')
+const verifyCode = asyncHandler(async(req, res) => {
+    const { id } = req.params
+    const { code } = req.body
+    const find = await Auth.findById({_id: id})
+    if(find){
+        if(code === pass){
+            res.json(id)
+        }else{
+            throw new Error(false + "code")
+        }
+    }else{
+        throw new Error('note verification')
     }
 })
 
@@ -133,24 +146,37 @@ const updatePassword = asyncHandler(async(req, res) => {
         await find.save()
         res.json(find)
     }else{
-        throw new Error('note updated password')
+        throw new Error('error update password!')
     }
 })
 
 //delete account
 const deleteAccount = asyncHandler(async(req, res) => {
-    const { email } = req.body
-    const find = await Auth.findOne(email)
+    const { id } = req.user
+    const find = await Auth.findById({_id: id})
     if(find){
-        let url = `Пожалуйста подтвердите email нажмите на ссылку <a href="http://localhost:8000/api/auth/deleteAccount${find._id}">Нажмите сюда</a>`
-        let data = {
-            from: "kutubxona655@gmail.com",
-            to: find.email,
-            subject: `Привет ${find.email}`,
-            text: url
-        }
+        let email = find.email
+        generateNumber()
+        serviceEmail(email, randomize)
+        pass = randomize
+        res.json(find.id)
+    }else{
+        throw new Error('error delete!')
+    }
+})
 
-        res.json(`Confirmation email sent ${find.email}`)
+const verifyCodeForDelete = asyncHandler(async(req, res) => {
+    const { code } = req.body
+    const { id } = req.params
+    const find = await Auth.findById({_id: id})
+    if(find){
+        if(code == pass){
+            res.json(find.id)
+        }else{
+            throw new Error('err note compare code == pass')
+        }
+    }else{
+        throw new Error('err not find email verify delete!')
     }
 })
 
@@ -159,8 +185,8 @@ const verifyDelete = asyncHandler(async(req, res) => {
     const { id } = req.params
     const find = await Auth.findById({ _id: id })
     if(find){
-        const deletAccount = await Auth.findByIdAndDelete(id)
-        res.json(deleteAccount)
+        const deletAccount = await Auth.findByIdAndDelete({ _id: id })
+        res.json('Profile deleted successfully!')
     }else{
         throw new Error('note deleted')
     }
@@ -178,8 +204,10 @@ module.exports = {
     logOut, 
     editUser, 
     forgotPassword, 
+    verifyCode,
     updatePassword, 
     deleteAccount,
+    verifyCodeForDelete,
     verifyDelete,
     userProfil
 }
