@@ -14,7 +14,7 @@ const Schema = new mongoose.Schema({
     password:{
         type:String
     },
-    lastGetQuiz:Array,
+    
     score:[
         {
             subjectName:String,
@@ -32,7 +32,6 @@ const Schema = new mongoose.Schema({
         type:Array
     },
 
-
     refreshToken: String,
     uniquinumber: String,
     isValid: {
@@ -45,12 +44,6 @@ const Schema = new mongoose.Schema({
 Schema.pre('save', async function(next){
     if(!this.isModified('password')){
         next()
-
-    getQuiz:{
-        SubjectName:String,
-        Quizs:Array,
-        QuizTime:Number
-
     }
 
     const salt = await bcrypt.genSalt(10)
@@ -66,5 +59,5 @@ Schema.methods.hashingPassword = async(enterPass) => {
     return bcrypt.hashSync(enterPass, 10)
 }
 
-module.exports= mongoose.model("Member",Schema)
+module.exports= mongoose.model("Member", Schema)
 
