@@ -123,10 +123,9 @@ const answerQuiz = async(req,res) => {
 
 
 
-
 module.exports = {
     addQuiz,
     getQuiz,
     deleteQuiz,
-    answerQuiz
+    answerQuiz,
 }

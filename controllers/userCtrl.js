@@ -22,7 +22,6 @@ const regis = asyncHandler(async(req, res) => {
         const uniquinumber = generateNumber()
         const isValid = false
         const newUser = new Auth({isValid, uniquinumber, ...req.body})
-        await newUser.save()
         let url = `Пожалуйста подтвердите email нажмите на ссылку <a href="http://localhost:8000/api/auth/verify/${uniquinumber}">Нажмите сюда</a>`
         let data = {
             from: "kutubxona655@gmail.com",
@@ -31,6 +30,7 @@ const regis = asyncHandler(async(req, res) => {
             text: url
         }
         serviceEmail(data)
+        await newUser.save()
         res.json('sended')
     }else{
         throw new Error('User already exist!')

@@ -1,14 +1,21 @@
 const route = require("express").Router()
 const Users = require("../model/user")
-const { regis, verifyEmail, login, logOut, editUser, 
-    forgotPassword, updatePassword, 
-    deleteAccount, verifyDelete, userProfil } = require('../controllers/userCtrl')
+const { 
+    regis, 
+    verifyEmail, 
+    login, 
+    logOut, 
+    editUser, 
+    forgotPassword, 
+    updatePassword, 
+    deleteAccount, 
+    verifyDelete, 
+    userProfil 
+} = require('../controllers/userCtrl')
 const { authMiddleWare } = require('../middleware/authmiddleware')
 const passport = require('passport')
-// const session = require('express-session')
-require('../config/passport')
-require('dotenv').config()
 
+require('../config/passport')
 
 route.post("/regis", regis)
 route.get('/verify/:uniquinumber', verifyEmail)

@@ -5,12 +5,13 @@ const {
     getQuiz,
     deleteQuiz,
     answerQuiz
-} = require("../controller/quizCtrl")
+} = require("../controllers/quizCtrl")
 
 
 route.post("/addQuiz",addQuiz)
 route.post("/getQuiz",getQuiz)
 route.delete("/deleteQuiz",deleteQuiz)
+
 route.post("/answerQuiz",answerQuiz)
 
 module.exports = route
