@@ -31,6 +31,10 @@ const Schema = new mongoose.Schema({
         type:Array
     },
     refreshToken: String,
+    isValid: {
+        type: Boolean,
+        default: false
+    },
     uniquinumber: String,
     isValid: {
         type: Boolean,

@@ -10,7 +10,9 @@ const {
     updatePassword, 
     deleteAccount, 
     verifyDelete, 
-    userProfil 
+    userProfil, 
+    verifyCode,
+    verifyCodeForDelete,
 } = require('../controllers/userCtrl')
 const { authMiddleWare } = require('../middleware/authmiddleware')
 const passport = require('passport')
@@ -18,7 +20,7 @@ const passport = require('passport')
 require('../config/passport')
 
 route.post("/regis", regis)
-route.get('/verify/:uniquinumber', verifyEmail)
+route.post('/verify', verifyEmail)
 route.post('/login', login)
 route.get('/logout', authMiddleWare, logOut)
 route.put('/update', authMiddleWare, editUser)
