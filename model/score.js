@@ -8,9 +8,13 @@ const Schema = new mongoose.Schema({
             score:[
                 {
                     date:Array,
-                    score:Number
+                    score:Number,
+                    mistake:Number,
+                    view:Array
                 }
-            ]
+            ],
+            averageRating:Number,
+            try:Number
         }
     ]
 })

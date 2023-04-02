@@ -4,6 +4,7 @@ const { generateToken } = require('../config/generateToken')
 const { generateRefreshToken } = require('../config/refreshToken')
 const { serviceEmail } = require('../utils/nodemailer')
 const crypto = require('crypto')
+
 let pass;
 let randomize = ''
 function generateNumber(){
@@ -15,38 +16,35 @@ function generateNumber(){
 }
 
 //registration
+let mas = []
 const regis = asyncHandler(async(req, res) => {
     const { email } = req.body
     const find = await Auth.findOne({email})
     if(!find){
-        const uniquinumber = generateNumber()
-        const isValid = false
-        const newUser = new Auth({isValid, uniquinumber, ...req.body})
-        await newUser.save()
-        let url = `Пожалуйста подтвердите email нажмите на ссылку <a href="http://localhost:8000/api/auth/verify/${uniquinumber}">Нажмите сюда</a>`
-        let data = {
-            from: "kutubxona655@gmail.com",
-            to: email,
-            subject: `Привет ${email}`,
-            text: url
-        }
-        serviceEmail(data)
-        res.json('sended')
+        generateNumber()
+        var newUser = new Auth({...req.body})
+        mas.push(newUser)
+        serviceEmail(email, randomize)
+        pass = randomize
+        res.json('sended') 
     }else{
         throw new Error('User already exist!')
     }
 })
 
+
 //verify account
 const verifyEmail = asyncHandler(async(req, res) => {
-    const { uniquinumber } = req.params
-    const user = await Auth.findOne({uniquinumber: uniquinumber})
-    if(user){
-        user.isValid = true
-        await user.save()
+    const { code } = req.body
+    if(code === pass){
+        for(let i = 0; i < mas.length; i++){
+           var createUser = await Auth.create(mas[i])
+           createUser.isValid = true
+           createUser.save()
+        }
         res.json('registration successful')
     }else{
-        throw new Error('Error regis')
+        throw new Error('Error!')
     }
 })
 
@@ -209,5 +207,6 @@ module.exports = {
     deleteAccount,
     verifyCodeForDelete,
     verifyDelete,
-    userProfil
+    userProfil,
+
 }

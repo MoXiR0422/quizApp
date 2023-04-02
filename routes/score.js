@@ -1,22 +1,7 @@
 const route = require("express").Router()
-const Score = require("../model/socre")
+const Score = require("../model/score")
+const getAllScore = require("../controllers/scoreCtrl")
 
-route.post("/getAllScore",async(req,res)=>{
-    try{
-        const {userId} = req.body
-        const user = await Score.findOne({userId:userId})
-        if(user){
-            res.json(user.scores)
-        }else{
-            res.json("not found user Score")
-        }    
-    }catch(error){
-        throw new Error(error)
-    }
-})
-
-route.post("/AnswerQuiz", async(req,res) => {
-    
-})
+route.post("/getAllScore",getAllScore)
 
 module.exports = route

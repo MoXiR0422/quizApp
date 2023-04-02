@@ -1,19 +1,10 @@
 const Quiz = require("../model/quiz")
 const User = require("../model/user")
+const {
+    Deadline ,
+    YourScore ,
 
-async function Deadline(userId){
-    const user = await User.findById(userId)
-    setInterval(async()=>{
-        user.getQuiz.QuizTime = `${user.getQuiz.QuizTime}` - 1; 
-        await user.save()
-    },1000)
-}
-
-
-async function YourScore(){
-    
-}
-
+} = require("../component/componentQuiz")
 
 const addQuiz = async(req,res)=>{
     try{
@@ -48,7 +39,7 @@ const getQuiz = async(req,res)=>{
             let quiz = Math.floor((Math.random()*(quizs.questions.length-1))+i)
             getQuizs.push(quizs.questions[quiz])
         }
-        if(1<=quizLimit && quizLimit<=2){
+        if(20<=quizLimit && quizLimit<=30){
             time = 2700
         }
         if(30<quizLimit && quizLimit<=50){
@@ -84,6 +75,7 @@ const answerQuiz = async(req,res) => {
     try{
         const {userId,answers} = req.body
         const user = await User.findById(userId)
+        let correct=0,mistake=0
         let answerMassiv =[]
         if(user.getQuiz.QuizTime){
             for(let i=0;i<answers.length;i++){
@@ -92,25 +84,31 @@ const answerQuiz = async(req,res) => {
                         let ma = obj.answers.some(key => {
                             if(`${key._id}` === answers[i].answerId && key.correct === true){
                                 answerMassiv.push(key);
+                                correct += 1
                                 return true
                             }
                         })
                         if(ma){
-                            
                         }else{
                             let mas = []
-                            mas.push(answers[i].answerId)
+                            mas.push(answers[i])
+                            console.log(obj.answers);
                             let ke = obj.answers.find(m => {
                                 if(m.correct === true){
                                     mas.push(m)
+                                    console.log(m);
                                 }
                             })
+                            mistake +=1
                             answerMassiv.push(mas)
                         }
                         }
                     }
                 );
             }        
+            let ress = YourScore(user.getQuiz.SubjectName,answerMassiv,correct,mistake,userId)
+            user.getQuiz = []
+            user.save()
             res.send(answerMassiv)            
         }else{
             res.json("quiz time ended")

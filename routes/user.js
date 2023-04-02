@@ -10,7 +10,9 @@ const {
     updatePassword, 
     deleteAccount, 
     verifyDelete, 
-    userProfil 
+    verifyCode,
+    userProfil ,
+    verifyCodeForDelete
 } = require('../controllers/userCtrl')
 const { authMiddleWare } = require('../middleware/authmiddleware')
 const passport = require('passport')
