@@ -13,9 +13,9 @@ const serviceEmail = asyncHandler(async(email, pass) => {
     })
 
     let options = {
-        from: "kutubxona655@gmail.com",
+        from: "Service Quiz app",
         to: `${email}`,
-        subject: 'Forgot password',
+        subject: 'secret key',
         text: `${pass}`
     }
 
