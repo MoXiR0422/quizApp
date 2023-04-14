@@ -2,7 +2,7 @@ const Auth = require('../model/user')
 const asyncHandler = require('express-async-handler')
 const { generateToken } = require('../config/generateToken')
 const { generateRefreshToken } = require('../config/refreshToken')
-const { serviceEmail } = require('../utils/nodemailer')
+const { serviceEmail } = require('../config/nodemailer')
 const crypto = require('crypto')
 
 let pass;

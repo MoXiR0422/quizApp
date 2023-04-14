@@ -1,7 +1,7 @@
 const route = require("express").Router()
 const Score = require("../model/score")
-const getAllScore = require("../controllers/scoreCtrl")
+const {userGetAllScore} = require("../controllers/scoreCtrl")
 
-route.post("/getAllScore",getAllScore)
+route.post("/getAllScore", userGetAllScore)
 
 module.exports = route

@@ -10,6 +10,7 @@ const Dbconnect = require("./config/dbConnect")
 const userRoute = require("./routes/user")
 const quizRoute = require("./routes/quiz")
 const scoreRoute = require("./routes/score")
+
 Dbconnect()
 require('./config/passport')
 require('dotenv').config()
